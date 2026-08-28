@@ -55,7 +55,7 @@ env:
   # `org.geolibre.desktop` for Android only. Google Play burns this permanently
   # on first upload — it cannot be changed or reused afterwards — so it is
   # verified rather than trusted.
-  EXPECTED_PACKAGE: "org.geolibre.app"
+  EXPECTED_PACKAGE: "com.geokebun.app"
 
 jobs:
   build:

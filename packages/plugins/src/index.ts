@@ -394,6 +394,12 @@ export {
   setAnnotationLabels,
   type AnnotationLabels,
 } from "./plugins/maplibre-annotations";
+export {
+  maplibreGeofencePlugin,
+  GEOFENCE_PLUGIN_ID,
+  GEOFENCE_SOURCE_KIND,
+} from "./plugins/maplibre-geofence";
+
 export { maplibreEnviroAtlasPlugin } from "./plugins/maplibre-enviroatlas";
 export { maplibreEsriWaybackPlugin } from "./plugins/maplibre-esri-wayback";
 export { maplibreFemaWmsPlugin } from "./plugins/maplibre-fema-wms";
@@ -1042,3 +1048,7 @@ export {
   type FlightModelConfig,
   type FlightStepResult,
 } from "./plugins/flight-simulator-physics";
+
+export { GpsAverager, type GpsSample, type AveragedResult } from "./plugins/gps-averaging";
+
+export { KEBUN_PLUGINS, HIDDEN_PLUGINS, isKebunPlugin } from "./kebun-preset";

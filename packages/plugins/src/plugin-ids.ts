@@ -16,3 +16,6 @@ export const ANNOTATIONS_PLUGIN_ID = "maplibre-gl-annotations";
 
 /** GeoAgent: the AI chat control, whose results sync into the store. */
 export const GEOAGENT_PLUGIN_ID = "maplibre-gl-geoagent";
+
+/** Geofence: zone monitoring with enter/leave alerts. */
+export const GEOFENCE_PLUGIN_ID = "maplibre-gl-geofence";

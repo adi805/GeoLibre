@@ -384,6 +384,32 @@ export async function addRasterToMap(
   if (options.defaults?.engine && control.getEngine() !== options.defaults.engine) {
     control.setEngine(options.defaults.engine);
   }
+  // GeoKebun: dukungan GeoPDF (PDF georeferenced dari Esri ArcMap / OGC)
+  // Render PDF ke canvas → blob PNG + affine bounds → jadi raster source.
+  if (typeof source !== 'string' && source instanceof File && /\.pdf$/i.test(source.name)) {
+    const { renderGeoPdfToBlob } = await import('./geopdf/geopdf-render');
+    const rendered = await renderGeoPdfToBlob(await source.arrayBuffer());
+    if (!rendered) {
+      throw new Error(
+        "GeoKebun: file ini bukan GeoPDF atau tidak punya georeferencing (koordinat GPS). " +
+        "Pastikan PDF berasal dari Avenza/ArcMap/GIS dengan georeferensi tertanam, atau konversi ke GeoTIFF."
+      );
+    }
+    if (rendered) {
+      // Simpan bounds+CRS ke state supaya store sync bisa pakai; gunakan blob sebagai source
+      const geoMeta = { bounds: rendered.bounds, crs: rendered.crs };
+      const pdfFile = new File([rendered.blob], options.name ?? 'geopdf.png', { type: 'image/png' });
+      const id = await control.addRaster(pdfFile, {
+        name: options.name,
+        zoomTo: options.zoomTo ?? true,
+        ...(options.beforeId ? { beforeId: options.beforeId } : {}),
+      });
+      applyRgbBandDefaults(control, id, options.defaults?.rgbBands);
+      if (options.localPath) { rememberLocalRasterPath(id, options.localPath); syncRasterLayersToStoreForRuntime(control); }
+      return id;
+    }
+  }
+
   const id = await control.addRaster(source, {
     name: options.name,
     zoomTo: options.zoomTo ?? true,

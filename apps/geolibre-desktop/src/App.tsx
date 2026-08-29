@@ -42,7 +42,7 @@ export default function App() {
   // one-shot import and duplicate its layers.
   const [mapAppAPI, setMapAppAPI] = useState<ReturnType<typeof createAppAPI> | null>(null);
   // Avenza-style screen routing: home (My Maps) ↔ viewer (full GIS shell).
-  const [screen, setScreen] = useState<{ kind: "home" } | { kind: "viewer"; project: RecentProjectEntry }>({
+  const [screen, setScreen] = useState<{ kind: "home" } | { kind: "viewer"; project: RecentProjectEntry; autoOpenRaster?: boolean }>({
     kind: "home",
   });
   const handleMapReady = useCallback((api: ReturnType<typeof createAppAPI>) => {
@@ -83,11 +83,12 @@ export default function App() {
           {screen.kind === "home" ? (
             <HomeScreen
               onOpenProject={(entry) => setScreen({ kind: "viewer", project: entry })}
-              onAddProject={() => setScreen({ kind: "viewer", project: { path: "add", name: "Tambah Peta", openedAt: new Date().toISOString() } })}
+              onAddProject={() => setScreen({ kind: "viewer", project: { path: "add", name: "Tambah Peta", openedAt: new Date().toISOString() }, autoOpenRaster: true })}
             />
           ) : (
             <DesktopShell
               layoutOptions={layoutOptions}
+              autoOpenRaster={screen.kind === "viewer" ? screen.autoOpenRaster : undefined}
               projectUrlLoadState={projectUrlLoadState}
               dataUrlLoadState={dataUrlLoadState}
               mapAppAPI={mapAppAPI}

@@ -394,11 +394,7 @@ export {
   setAnnotationLabels,
   type AnnotationLabels,
 } from "./plugins/maplibre-annotations";
-export {
-  maplibreGeofencePlugin,
-  GEOFENCE_PLUGIN_ID,
-  GEOFENCE_SOURCE_KIND,
-} from "./plugins/maplibre-geofence";
+export { registerGeofencePlugin, GEOFENCE_SOURCE_KIND } from "./plugins/maplibre-geofence";
 
 export { maplibreEnviroAtlasPlugin } from "./plugins/maplibre-enviroatlas";
 export { maplibreEsriWaybackPlugin } from "./plugins/maplibre-esri-wayback";
